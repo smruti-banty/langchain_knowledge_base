@@ -38,7 +38,7 @@ export default function home() {
   }
 
   async function getResult(query: string) {
-    const response = await fetch(`http://localhost:8000`, {
+    const response = await fetch(`http://localhost:8000/chat`, {
       method: "POST",
       body: JSON.stringify({ message: query, session_id: getSessionId() }),
       headers: {
