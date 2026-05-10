@@ -1,4 +1,4 @@
-from backend.model.chat import ChatMessage, ChatRecord
+from model.chat import ChatMessage, ChatRecord
 import asyncio
 
 
