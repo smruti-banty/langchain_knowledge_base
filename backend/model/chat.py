@@ -29,3 +29,27 @@ class ChatRecord(BaseModel):
 class Item(BaseModel):
     message: str
     session_id: str
+
+
+class ChatResponse(BaseModel):
+    session_id: str
+
+    role: Literal["human", "ai", "system"]
+
+    content: str
+
+    created_at: datetime = Field(default_factory=datetime.now())
+
+    # Optional extracted semantic memory
+    memory: Optional[str] = None
+
+    # Optional metadata
+    metadata: Optional[Dict[str, Any]] = None
+
+
+class MemoryExtraction(BaseModel):
+    memory: str
+    memory_type: Literal[
+        "project", "preference", "skill", "goal", "personal", "summary"
+    ]
+    should_store: bool

@@ -9,4 +9,4 @@ main_llm = ChatOllama(model="gemma4", temperature=0.5, base_url=BASE_URL)
 
 embed_llm = OllamaEmbeddings(model="nomic-embed-text", base_url=BASE_URL)
 
-memory_llm = ChatOllama(model='phi4', base_url=BASE_URL, temperature=0)
+summarize_llm = ChatOllama(model='phi4', base_url=BASE_URL, temperature=0)
