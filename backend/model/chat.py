@@ -9,7 +9,7 @@ class ChatMessage(BaseModel):
 
     content: str
 
-    created_at: datetime = Field(default_factory=datetime.now())
+    created_at: datetime = Field(default_factory=datetime.now)
 
     # Optional extracted semantic memory
     memory: Optional[str] = None

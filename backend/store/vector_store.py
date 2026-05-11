@@ -24,8 +24,8 @@ structured_llm = summarize_llm.with_structured_output(MemoryExtraction)
 async def summarize_conversation(chat: ChatRecord) -> MemoryExtraction:
     messages = [
         SystemMessage(content=memory_extraction_prompt),
-        HumanMessage(content=chat.user_message),
-        AIMessage(content=chat.ai_message),
+        HumanMessage(content=chat.user_message.content),
+        AIMessage(content=chat.ai_message.content),
     ]
 
     response = await structured_llm.ainvoke(messages)

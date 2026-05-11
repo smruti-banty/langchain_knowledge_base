@@ -39,7 +39,10 @@ chain = RunnableWithMessageHistory(
 async def generate(item: Item):
     full_message = ""
     async for chunk in chain.astream(
-        item.message, {"configurable": {"session_id": item.session_id}}
+        {
+            "input": item.message,
+        },
+        config={"configurable": {"session_id": item.session_id}},
     ):
         if chunk.content:
             full_message += chunk.content
@@ -47,9 +50,20 @@ async def generate(item: Item):
 
     remove_session_history(item.session_id)
 
-    user_message = ChatMessage(item.session_id, "human", item.message)
-    ai_message = ChatMessage(item.session_id, "ai", full_message)
+    user_message = ChatMessage(
+        session_id=item.session_id, role="human", content=item.message
+    )
+
+    ai_message = ChatMessage(
+        session_id=item.session_id, role="ai", content=full_message
+    )
 
     asyncio.create_task(
-        process_chat(ChatRecord(item.session_id, user_message, ai_message))
+        process_chat(
+            ChatRecord(
+                session_id=item.session_id,
+                user_message=user_message,
+                ai_message=ai_message,
+            )
+        )
     )
