@@ -7,13 +7,12 @@ from config.llm_detail import embed_llm, summarize_llm
 from model.chat import ChatRecord, MemoryExtraction
 from util.prompt import memory_extraction_prompt
 
-DB_LOCATION = ".chroma"
 SIMILARITY_THRESHOLD = 0.15
 
 chroma = Chroma(
     collection_name="semantic_memory",
     embedding_function=embed_llm,
-    database=DB_LOCATION,
+    persist_directory="./.chroma_db",
 )
 
 # splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
@@ -63,10 +62,12 @@ async def save_personalized_message(chat_record: ChatRecord):
 
     chroma.add_texts(
         texts=[summarize_memory_response.memory],
-        metadatas={
-            "session_id": chat_record.session_id,
-            "memory_type": summarize_memory_response.memory_type,
-        },
+        metadatas=[
+            {
+                "session_id": chat_record.session_id,
+                "memory_type": summarize_memory_response.memory_type,
+            }
+        ],
     )
 
     print("Data stored")
